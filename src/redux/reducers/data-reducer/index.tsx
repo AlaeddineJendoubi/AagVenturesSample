@@ -1,4 +1,4 @@
-import { SET_DATA } from "../../actions/data-actions/data-actions-types";
+import { SET_DATA, SORT_DATA } from "../../actions/data-actions/data-actions-types";
 
 
 
@@ -13,7 +13,6 @@ export default (state = INITIAL_STATE, action: any) => {
                 ...state,
                 data: action?.payload
             };
-
         default:
             return state;
     }

@@ -3,14 +3,15 @@ import { View } from "react-native";
 import { isNil } from 'lodash'
 import { TextInput, HelperText } from 'react-native-paper';
 import { searchCrypto } from "../../../utils/filter/search";
+import { resetFilterMenu } from "../interface";
 
 
 
-export const SearchBar = (props) => {
+export const SearchBar = (props: any) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        // // Use debounce if we need to seach only when user stops writing
+        /**************Use debounce if we need to seach only when user stops writing****************************/
         // const delayDebounceFn = setTimeout(() => {
         //     if (searchQuery?.length > 0) {
         //         props?.setSearchResult(searchCrypto(searchQuery, props?.data))
@@ -20,15 +21,21 @@ export const SearchBar = (props) => {
         // }, 500)
         // return () => clearTimeout(delayDebounceFn)
 
-        if (searchQuery?.length > 0) {
+        /***********************************************/
+        // Reset filter menu
+        resetFilterMenu(props?.setFilterOption,
+            props?.setIsFilterMenuVisible,
+            props?.isFilterMenuVisible
+        )
+        searchQuery?.length > 0 ?
             props?.setSearchResult(searchCrypto(searchQuery, props?.data))
-        } else {
-            props?.setSearchResult(null)
-        }
+            : props?.setSearchResult(null)
+
     }, [searchQuery])
 
     return (
         <View>
+            {/* Text input component */}
             <TextInput
                 label="Search crypto"
                 mode='outlined'
@@ -43,10 +50,10 @@ export const SearchBar = (props) => {
                 }}
                 value={searchQuery}
             />
+            {/* Text helper to display error/ info text under text input */}
             <HelperText
                 type="error"
                 visible={true}
-
             >
                 {isNil(props?.searchResult)
                     ? 'Search for a crypto by name or symbol'

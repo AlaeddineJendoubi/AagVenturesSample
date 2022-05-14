@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { IconButton } from 'react-native-paper'
-import { filterDataByKey } from '../../../utils/filter/search';
 import { isNil } from 'lodash'
 import { updateFilterdDataAction } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
-export const FilterMenu = (props) => {
-    // filter options state init and management 
-    const [filterOption, setFilterOption] = useState({
-        key: null,
-        order: null
-    })
+export const FilterMenu = (props: any) => {
+    const [selectedButton, setSelectedButton] = useState(null)
     // data state init
     const data = useSelector((state) => state?.apiData?.data)
     // init dispatch
@@ -18,10 +13,10 @@ export const FilterMenu = (props) => {
 
     // data filtering state management on fitler option updated
     useEffect(() => {
-        if (!isNil(filterOption?.key) && !isNil(filterOption?.order)) {
-            dispatch(updateFilterdDataAction(props?.loadingState, filterOption, data))
+        if (!isNil(props?.filterOption?.key) && !isNil(props?.filterOption?.order)) {
+            dispatch(updateFilterdDataAction(props?.loadingState, props?.filterOption, data))
         }
-    }, [filterOption])
+    }, [props?.filterOption])
 
 
 
@@ -35,19 +30,26 @@ export const FilterMenu = (props) => {
                 <IconButton
                     icon="arrow-up-thin"
                     color={'black'}
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.nameASC ? 'grey' : 'white' }}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'name', order: 'ASC' })}
+                    onPress={() => {
+                        setSelectedButton({ nameASC: !selectedButton?.nameASC })
+                        props?.setFilterOption({ key: 'name', order: 'ASC' })
+                    }}
                 />
                 <Text >
                     Name
                 </Text>
                 <IconButton
                     icon="arrow-down-thin"
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.nameDESC ? 'grey' : 'white' }}
                     color={'black'}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'name', order: 'DESC' })}
+                    onPress={() => {
+                        setSelectedButton({ nameDESC: !selectedButton?.nameDESC })
+
+                        props?.setFilterOption({ key: 'name', order: 'DESC' })
+                    }}
                 />
 
             </View>
@@ -58,20 +60,27 @@ export const FilterMenu = (props) => {
                 </Text>
                 <IconButton
                     icon="arrow-up-thin"
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.currentPriceASC ? 'grey' : 'white' }}
                     color={'black'}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'current_price', order: 'ASC' })}
+                    onPress={() => {
+                        setSelectedButton({ currentPriceASC: !selectedButton?.currentPriceASC })
+                        props?.setFilterOption({ key: 'current_price', order: 'ASC' })
+                    }}
                 />
                 <Text >
                     Current Price
                 </Text>
                 <IconButton
                     icon="arrow-down-thin"
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.currentPriceDESC ? 'grey' : 'white' }}
+
                     color={'black'}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'current_price', order: 'DESC' })}
+                    onPress={() => {
+                        setSelectedButton({ currentPriceDESC: !selectedButton?.currentPriceDESC })
+                        props?.setFilterOption({ key: 'current_price', order: 'DESC' })
+                    }}
                 />
             </View>
             {/* Filter by Ath date  */}
@@ -81,20 +90,28 @@ export const FilterMenu = (props) => {
                 </Text>
                 <IconButton
                     icon="arrow-up-thin"
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.athDateASC ? 'grey' : 'white' }}
+
                     color={'black'}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'ath', order: 'ASC' })}
+                    onPress={() => {
+                        setSelectedButton({ athDateASC: !selectedButton?.athDateASC })
+                        props?.setFilterOption({ key: 'ath', order: 'ASC' })
+                    }}
                 />
                 <Text >
                     Ath date
                 </Text>
                 <IconButton
                     icon="arrow-down-thin"
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: selectedButton?.athDateDESC ? 'grey' : 'white' }}
+
                     color={'black'}
                     size={20}
-                    onPress={() => setFilterOption({ key: 'ath', order: 'DESC' })}
+                    onPress={() => {
+                        setSelectedButton({ athDateDESC: !selectedButton?.athDateDESC })
+                        props?.setFilterOption({ key: 'ath', order: 'DESC' })
+                    }}
                 />
             </View>
         </View>

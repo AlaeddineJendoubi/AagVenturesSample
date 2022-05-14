@@ -1,96 +1,44 @@
 import { filter } from 'lodash'
+import { FilterOptions } from '../../types'
 
-export const searchCrypto = (searched, data) => {
-    return filter(data, (dataItem) => {
-        return dataItem?.name?.toString()?.toLowerCase()?.includes(searched?.toLowerCase()) || dataItem?.symbol?.toString()?.toLowerCase()?.includes(searched?.toLowerCase())
+/**
+ * Search for item in data if data.name or data.symbol is similar to searched input
+ * @prop {string}  searched search input
+ * @prop {Function}  onFailure function triggered on failirue 
+ * @return {void}
+ */
+export const searchCrypto = (searched: any, data: any) => {
+    return filter(data, (dataItem: any) => {
+        return dataItem?.name?.toString()?.toLowerCase()?.includes(searched?.toLowerCase())
+            || dataItem?.symbol?.toString()?.toLowerCase()?.includes(searched?.toLowerCase())
     })
 }
 
-
-const sortByNameAsc = (a, b) => {
-    if (a.name < b.name) {
-        return -1;
-    }
-    if (a.name > b.name) {
-        return 1;
-    }
-    return 0;
-}
-
-const sortByNameDesc = (a, b) => {
-    if (a.name < b.name) {
-        return 1;
-    }
-    if (a.name > b.name) {
-        return -1;
-    }
-    return 0;
-}
-
-
-const sortCurrentPriceAsc = (a, b) => {
-    if (a.current_price < b.current_price) {
-        return -1;
-    }
-    if (a.current_price > b.current_price) {
-        return 1;
-    }
-    return 0;
-}
-
-const sortByCurrentPriceDesc = (a, b) => {
-    if (a.current_price < b.current_price) {
-        return 1;
-    }
-    if (a.current_price > b.current_price) {
-        return -1;
-    }
-    return 0;
-}
-
-
-const sortAthDateAsc = (a, b) => {
-    if (a.ath_date < b.ath_date) {
-        return -1;
-    }
-    if (a.ath_date > b.ath_date) {
-        return 1;
-    }
-    return 0;
-}
-
-const sortByAthDateDesc = (a, b) => {
-    if (a.ath_date < b.ath_date) {
-        return 1;
-    }
-    if (a.ath_date > b.ath_date) {
-        return -1;
-    }
-    return 0;
-}
-
-
-export const filterDataByKey = (filter, data) => {
-
-    if (filter?.key === 'name') {
-        if (filter?.order === 'ASC') {
-            return data?.sort(sortByNameAsc)
+/**
+ * Filters data by key and order
+ * @prop {FilterOptions}  filterOption search input
+ * @prop {object}  data function triggered on failirue 
+ * @return {void}
+ */
+export const filterDataByKey = (filterOption: FilterOptions, data: any) => {
+    return data?.sort(function (a: any, b: any) {
+        if (filterOption?.order === 'ASC') {
+            console.log('is asc', a[filterOption?.key])
+            if (a[filterOption?.key] < b[filterOption?.key]) {
+                return -1;
+            }
+            if (a[filterOption?.key] > b[filterOption?.key]) {
+                return 1;
+            }
+            return 0;
         } else {
-            return data?.sort(sortByNameDesc)
+            if (a[filterOption?.key] < b[filterOption?.key]) {
+                return 1;
+            }
+            if (a[filterOption?.key] > b[filterOption?.key]) {
+                return -1;
+            }
+            return 0;
         }
-    }
-    if (filter?.key === 'current_price') {
-        if (filter?.order === 'ASC') {
-            return data?.sort(sortCurrentPriceAsc)
-        } else {
-            return data?.sort(sortByCurrentPriceDesc)
-        }
-    }
-    if (filter?.key === 'ath') {
-        if (filter?.order === 'ASC') {
-            return data?.sort(sortAthDateAsc)
-        } else {
-            return data?.sort(sortByAthDateDesc)
-        }
-    }
+    })
 }
