@@ -1,6 +1,6 @@
 # AAG Ventures Sample Application
 ## Demo
-![Uploading Simulator Screen Recording - iPhone 13 - 2022-05-14 at 04.24.12.gif…]()
+![Simulator Screen Recording - iPhone 13 - 2022-05-14 at 04 24 12](https://user-images.githubusercontent.com/36207352/168409258-de0b8025-f4e7-4933-936d-86fe9dcd4432.gif)
 
 A mini test crypto search and filter application 
 - **React-native**
